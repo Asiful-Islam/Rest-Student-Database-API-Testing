@@ -1,0 +1,198 @@
+{
+	"info": {
+		"_postman_id": "3d99b0db-59fd-4a3c-8471-0b49043bd17f",
+		"name": "Asiful_01517130183",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "13752119"
+	},
+	"item": [
+		{
+			"name": "Get Student",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Checking the Test Status Code\", function(){\r",
+							"    //pm.expect(pm.environment.get(\"firstName\")).to.eql(jasonData.first_name)\r",
+							"    pm.response.to.have.status(200)\r",
+							"});\r",
+							"var jsonData = pm.response.json();\r",
+							"var responseLength = jsonData.length\r",
+							"console.log(responseLength)"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{Base_Url}}/api/studentsDetails",
+					"host": [
+						"{{Base_Url}}"
+					],
+					"path": [
+						"api",
+						"studentsDetails"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Student",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var firstname = pm.variables.replaceIn(\"{{$randomFirstName}}\");\r",
+							"//console.log(firstname)\r",
+							"pm.environment.set(\"firstName\", firstname)\r",
+							"\r",
+							"var middlename = pm.variables.replaceIn(\"{{$randomFirstName}}\");\r",
+							"//console.log(middlename)\r",
+							"pm.environment.set(\"middleName\", middlename)\r",
+							"\r",
+							"var lastname = pm.variables.replaceIn(\"{{$randomLastName}}\");\r",
+							"//console.log(lastname)\r",
+							"pm.environment.set(\"lastName\", lastname)\r",
+							"\r",
+							"const date = require('moment')\r",
+							"const dd = date()\r",
+							"//console.log(dd.format(\"YYYY-MM-DD\"))\r",
+							"//console.log(today.add(5, 'd').add(5, 'M').add(1, 'Y').format(\"YYYY-MM-DD\"))\r",
+							"//console.log(today.subtract(5, 'd').format(\"YYYY-MM-DD\"))\r",
+							"var birthdate = dd.subtract(1, 'd').add(5, 'M').subtract(26, 'Y').format(\"YYYY-MM-DD\");\r",
+							"pm.environment.set(\"birthDate\", birthdate)\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();\r",
+							"pm.environment.set(\"Student_id\", jsonData.id)\r",
+							"\r",
+							"pm.test(\"Checking the Test Status Code\", function(){\r",
+							"    //pm.expect(pm.environment.get(\"firstName\")).to.eql(jasonData.first_name)\r",
+							"    pm.response.to.have.status(201)\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{ \r\n\"first_name\": \"{{firstName}}\", \r\n\"middle_name\": \"{{middleName}}\", \r\n\"last_name\": \"{{lastName}}\", \r\n\"date_of_birth\": \"{{birthDate}}\" \r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{Base_Url}}/api/studentsDetails",
+					"host": [
+						"{{Base_Url}}"
+					],
+					"path": [
+						"api",
+						"studentsDetails"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Specific Student",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Checking the Test Status Code\", function(){\r",
+							"    //pm.expect(pm.environment.get(\"firstName\")).to.eql(jasonData.first_name)\r",
+							"    pm.response.to.have.status(200)\r",
+							"});\r",
+							"var jasonData = pm.response.json()\r",
+							"pm.test(\"Student Id Validation\", function(){\r",
+							"    pm.expect(pm.environment.get(\"Student_id\")).to.eql(jasonData.data.id)\r",
+							"});\r",
+							"var jasonData = pm.response.json()\r",
+							"pm.test(\"First Name Validation\", function(){\r",
+							"    pm.expect(pm.environment.get(\"firstName\")).to.eql(jasonData.data.first_name)\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{Base_Url}}/api/studentsDetails/{{Student_id}}",
+					"host": [
+						"{{Base_Url}}"
+					],
+					"path": [
+						"api",
+						"studentsDetails",
+						"{{Student_id}}"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
